@@ -1,0 +1,23 @@
+\begin{python}
+from math import sin, cos, pi
+r = 2
+n = 12
+tau = pi * 2
+
+node_str = '\\node ({i}) at ({x}, {y}) [circle,draw] {{}};\n'
+for i in range(n):
+    x, y = r * cos(tau / n * i), r * sin(tau / n * i)
+    print(node_str.format(**locals()))
+
+edge_str = '\\draw ({i}) to ({j});\n'
+for i in range(n):
+    for j in range(n):
+        if i < j:
+            print(edge_str.format(**locals()))
+
+\end{python}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "graphs"
+%%% End:

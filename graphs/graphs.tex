@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{beamer}
+\usepackage{etoolbox} % for if-then-else
+\usepackage{xcolor} % for \textcolor{gray}{hello world}
+\usepackage{python} % for pytohn automation
+\usepackage{graphicx} % for \IncludeGraphics[width=1.0in]{picture.png}
+\usepackage{tikz} % for computer generated graphics
+\usetikzlibrary{arrows}
+\newbool{notes}
+\setbool{notes}{true}
+\newcommand{\inote}[1]{
+	\ifbool{notes}{\textcolor{gray}{#1}}{}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Variables
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Graphs}
+\author{Sam Grayson}
+\institute{Cool school}
+\date{\today}
+
+\begin{document}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+\titlepage
+\inote{This presentation is designed to be used in a review session for students already familiar with graphs but need to review the terminology.
+This is not designed to teach fundamental concepts of graphs.}
+}
+ 
+\input{undirected}
+
+\input{directed}
+
+\input{trees}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
