@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{beamer}
+\usepackage{etoolbox} % for if-then-else
+\usepackage{xcolor} % for \textcolor{gray}{hello world}
+\usepackage{python} % for pytohn automation
+\usepackage{graphicx} % for \IncludeGraphics[width=1.0in]{picture.png}
+\usepackage{tikz} % for computer generated graphics
+\usetikzlibrary{arrows}
+\newbool{notes}
+\setbool{notes}{true}
+\newcommand{\inote}[1]{
+	\ifbool{notes}{\textcolor{gray}{#1}}{}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Variables
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Induction}
+\author{Sam Grayson}
+\institute{Cool school}
+\date{\today}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\begin{document}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+\titlepage
+}
+ 
+\input{basic}
+
+\input{strong}
+
+\input{structural}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

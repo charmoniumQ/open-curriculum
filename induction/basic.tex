@@ -1,0 +1,244 @@
+\begin{frame}
+  \frametitle{Climbing the ladder}
+
+  I'm at the first rung.
+  \pause
+
+  If I'm at a rung on the ladder, I can get to the next one.
+  \pause
+
+  
+  $\therefore$ I can get to any rung of the ladder
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Climbing the ladder (with symbols)}
+
+  $P(0)$
+  \pause
+
+  $P(k) \implies P(k+1)$, for $k \in \N$
+  \pause
+
+  $\forall n \geq 0, P(n)$ by the Principle of Mathematical Induction
+
+  \pause
+
+  \inote{Reasoning: $P(0)$ and $P(0) \implies P(1)$ therefore $P(1)$. $P(1)$ and $P(1) \implies P(2)$ therefore $P(2)$.}
+
+  \inote{Note that mathematical induction is a very powerful proof technique, because proving the basis step is usually very easy. Proving the inductive step isn't that hard either, because you get to assume the inductive hypothesis for free.}
+
+  \inote{However, you already need to know what you are trying to prove to use induction. You already have to know what $P(n)$ is. You can prove existing theorems, but making new ones is not as easy.}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Climbing the ladder (with Morales' symbols)}
+
+  \begin{itemize}
+    
+  \item \textbf{Setup}
+    \begin{itemize}
+    \item Define $P(n)$
+      \pause
+
+    \item State what you are trying to prove as $\forall n \geq b, P(n)$
+      \pause
+      
+    \item State that you are using proof by induction.
+      \pause
+    \end{itemize}
+
+  \item \textbf{Basis Step}
+    \begin{itemize}
+    \item State $P(b)$
+      \pause
+    \item Prove $P(b)$
+      \pause
+    \item We have proved that $P(0)$ is true, completing the basis step
+      \pause
+    \end{itemize}
+    
+  \item \textbf{Inductive Hypothesis}
+    \begin{itemize}
+    \item Let $k$ be an arbitrary integer
+      \pause
+    \item State $P(k)$
+      \inote{Bad style to use $n$ here, since it is used differently in the conclusion.}
+      \inote{No proof necessary. This is what I mean when I say we get the IH `for free'.}
+      \pause
+    \end{itemize}
+
+    
+  \item \textbf{Inductive Step}
+    \begin{itemize}
+    \item Assume the IH for some $k \geq b$
+      \pause
+    \item State $P(k+1)$
+      \pause
+    \item Prove $P(k+1)$
+      \inote{Be sure that this proof is valid even if $k = b$}
+      \pause
+    \item We have shown $P(k) \implies P(k+1)$, completing the inductive step.
+      \pause
+    \end{itemize}
+
+  \item \textbf{Conclusion}
+    \begin{itemize}
+    \item We have shown $P(0)$
+      \pause
+    \item We have shown $P(k) \implies P(k+1)$ for all $k \geq b$
+      \pause
+    \item By the Principle of Mathematical Awesome, $\forall n \geq b, P(n)$
+      \pause
+    \end{itemize}
+    
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: Geometric series}
+
+  \textbf{Prove:} $1 + r + r^2 + \dotsb + r^n = (r^{n+1} - 1) / (r - 1)$
+
+  \textbf{Setup:} Let $P(n) := \sum_{i=0}^n r^i = (r^{n+1} - 1) / (r - 1)$. We want to show $\forall n \geq$ \pause $1, P(n)$ by mathematical induction.
+  \pause
+
+  \textbf{Basis:} $P(1)$ says $\sum_{i=0}^1 r^i = (r^{1+1} - 1) / (r - 1)$.
+  \pause
+
+  \begin{enumerate}
+  \item \inote{simplify the LHS} $\sum_{i=0}^1 r^i = 1 + r^1$, defn of summation notation
+    \pause
+  \item \inote{simplify RHS} $(r^2 - 1) / (r-1) = (r+1)(r-1)/(r-1) = (r+1)$, algebra
+    \pause
+  \item $\sum_{i=0}^1 r^i = (r^2 - 1) / (r-1)$, transitivity
+    \pause
+  \end{enumerate}
+
+  We have shown $P(0)$, concluding the basis step
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: Geometric series (part 2)}
+
+  \textbf{Inductive Hypothesis:} Let $k$ be an arbitrary integer.
+
+  $P(k)$ says $\sum_{i=0}^k r^i = (r^{k+1} - 1) / (r - 1)$
+  \pause
+
+  \textbf{Inductive Step:} Prove $P(k+1)$ using the Inductive Hypothesis
+  \pause
+
+  \begin{enumerate}
+  \item $\sum_{i=0}^{k+1} r^i = \sum_{i=0}^k r^i + r^{k+1}$, def on summation notation \inote{Often your first step will look like this, because it gets us back to our IH}
+    \pause
+  \item $\sum_{i=0}^k r^i + r^{k+1} = (r^{k+1} - 1) / (r - 1) + r^{k+1}$, IH
+  \item $(r^{k+1} - 1) / (r - 1) + r^{k+1} (r-1) / (r-1)$
+    \pause
+    $= (r^{k+1} - 1) / (r - 1) + (r^{k+2}-r^{k+1}) / (r-1)$
+    \pause
+    $= (r^{k+1} + r^{k+2} - r^{k+1} - 1) / (r-1)$
+    $= (r^{k+2} - 1) / (r-1)$, Algebra
+  \end{enumerate}
+  \pause
+  We have shown $P(k) \implies P(k+1)$
+  \pause
+  \textbf{Conclusion:} We have shown $P(0)$ and $P(k) \implies P(k+1)$ for all $k \geq 1$, therefore by the Principle of Mathematical Induction $\forall n \geq 1, P(n)$
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Alternative fact:}
+  \pause
+  {\large yeah, I went there}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Alternative fact: All horses are the same color}
+
+  \begin{itemize}
+    
+  \item \textbf{Setup}
+    \begin{itemize}
+    \item $P(n) := $ ``In any set of $n$ horses, all the horses are the same color''
+    \item $\forall n \geq 1, P(n)$ \inote{0 would also work here, 1 is easier to understand}
+    \item Proof by induction.
+    \end{itemize}
+    \pause
+
+  \item \textbf{Basis Step}
+    \begin{itemize}
+    \item $P(1)$ says ``In a set of $1$ horses, all the horses are the same color''
+    \item
+      \begin{enumerate}
+      \item Let $S = {x}$ be a set of horses, assumption
+      \item $x$ is the same color as $x$, transitivity
+      \end{enumerate}
+    \item We have proved that $P(0)$ is true, completing the basis step
+    \end{itemize}
+    \pause
+
+  \item \textbf{Inductive Hypothesis}
+    \begin{itemize}
+    \item Let $k$ be an arbitrary integer
+    \item $P(k)$ says that ``In a set of $k$ horses, all the horses are the same color''
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+
+  \begin{itemize}
+
+  \item \textbf{Inductive Step}
+    \begin{itemize}
+    \item Assume the IH for some $k \geq 1$
+    \item $P(k+1)$ says that ``In a set of $k+1$ horses, all the horses are the same color''
+      \begin{enumerate}
+      \item Let $S = \{x_1, x_2, \dotsc, x_{k+1}\}$ be a set of horses, assumption
+      \item Let $S_1 = \{x_1, x_2, \dotsc, x_k\}$, assumption
+      \item Let $S_2 = \{x_2, x_3, \dotsc, x_{k+1}\}$, assumption
+      \item All horses in $S_1$ are the same color as $x_2$, IH
+      \item All horses in $S_2$ are the same color as $x_2$, IH
+      \item $S_1 \cup S_2 = S$, defn of $S_1$ and $S_2$
+      \item All horses in $S$ are the same color as $x_2$, transitivity
+      \end{enumerate}
+    \item We have shown $P(k) \implies P(k+1)$, completing the inductive step.
+    \end{itemize}
+    \pause
+
+  \item Conclusion omitted.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \includegraphics[height=3in]{troll.jpg}
+\end{frame}
+
+\begin{frame}
+  How would we get $P(3)$?
+
+  \pause
+  \begin{tabular}{l}
+    $P(0)$ \\
+    $P(0) \implies P(1)$ \\
+    $\therefore P(1)$ \\
+    $P(1) \implies P(2)$ \\
+    $\therefore P(2)$ \\
+    $P(2) \implies P(3)$ \\
+    $\therefore P(3)$ \\
+  \end{tabular}
+  \pause
+
+  But does $P(0) \implies P(1)$?
+
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
