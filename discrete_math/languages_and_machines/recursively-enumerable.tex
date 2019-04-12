@@ -1,0 +1,111 @@
+\documentclass[languages_and_machines.tex]{subfiles}
+\begin{document}
+
+
+\begin{frame}
+  \frametitle{Turing Machines equivalents}
+
+  \begin{itemize}
+  \item Modern computers (within memory limitations)
+    \pause
+  \item Arbitrary grammar
+    \pause
+  \item Recursively enumerable (composition, recursion, `count-up')
+    \pause
+  \item FRACTRAN
+    \pause
+  \item Lambda Calculus
+    \pause
+  \item FlooP
+  \end{itemize}
+
+  None of these are guaranteed to halt!
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{P \only<1>{=}\only<2>{\(\neq\)} NP}
+
+  Deterministic TM \textbf{P}olynomial-time algorithm
+  \only<1>{\(\iff\)}\only<2>{\(\hspace{1.5ex}\not\hspace{-2ex}\iff\)}
+  \textbf{N}on-deterministic TM \textbf{P}olynomial-time algorithm?
+\end{frame}
+
+\begin{frame}
+  \frametitle{Universal Turing Program}
+
+  Turing Machine takes encoding of a machine and its input, separated by a marker symbol.
+
+  Decides if machine accepts given input.
+\end{frame}
+
+% \begin{frame}
+%   \frametitle{DTM \(\iff\) NTM}
+
+%   Backtracking
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Unrestricted Grammars}
+
+  \(\alpha \to \beta\)
+
+  \(\alpha\) and \(\beta\) can be anything in \((\Gamma \cup \Sigma)^*\)!
+\end{frame}
+
+\begin{frame}
+  \frametitle{Unrestricted Grammars \(\iff\) NTM}
+
+  Task: construct NTM that recognizes strings genreated by an unrestricted grammar
+
+  \(x_0 x_1 \dotsb x_n\) on tape.
+
+  \pause
+
+  Append \(\# S\).
+
+  \pause
+
+  Start simulating a derivation, replacing \(\alpha\) with \(\beta\) according to grammar. Result is unbounded, but so is tape.
+
+  \pause
+
+  If string before \# matches that after, accept.
+
+  \pause
+
+  \textbf{Could take forever}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Unrestricted Grammars \(\iff\) NTM}
+
+  \(x_0 x_1 \dotsb x_n\) \\
+  \pause
+  \(x_0 x_1 \dotsb x_n \# S\) \\
+  \pause
+  \(x_0 x_1 \dotsb x_n \# \alpha \gamma\) \\
+  \pause
+  \(x_0 x_1 \dotsb x_n \# \beta \theta \gamma \alpha\) \\
+  \pause
+  \(\vdots\) \\
+  \pause
+  \(x_0 x_1 \dotsb x_n \# x_1 x_2 \dotsb x_n\) \\
+  \pause
+  accept
+\end{frame}
+
+\begin{frame}
+  \frametitle{Unrestricted Grammars \(\iff\) NTM}
+
+  Suppose \(\textcolor{green}{(S_i', x_n', L)} \in \textcolor{red}{f(S_i, x_n)}\),
+
+  then \(\textcolor{red}{S_i' x_{n-1} x_n'} \to \textcolor{green}{x_{n-1} S_i x_n}\).
+
+\end{frame}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

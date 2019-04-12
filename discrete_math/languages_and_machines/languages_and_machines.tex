@@ -1,0 +1,74 @@
+\documentclass[14pt]{beamer}
+\usepackage{subfiles}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{ulem}
+\usepackage{forest}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage[type={CC},modifier={by-sa},version={4.0}]{doclicense}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\tikzstyle{tmtape}=[draw,minimum size=0.7cm,minimum width=1.5cm]
+\newcommand{\thisTitle}{Languages and machines}
+\newcommand{\thisSubtitle}{The meaning of language and limits of computation}
+\newcommand{\thisAuthor}{Samuel Grayson}
+
+\hypersetup{
+  pdftitle={\thisTitle: \thisSubtitle},
+  pdfauthor={\thisAuthor},
+  colorlinks=true,
+  linkcolor=blue,
+  linkbordercolor=blue,
+}
+
+\usecolortheme{Whale}
+\usetheme{default}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\newcommand{\pro}{\(\to\)\ }
+\newcommand{\powerset}{\mathcal P}
+\newcommand{\emptystr}{\(\varepsilon\)\ }
+
+\title{\thisTitle}
+\subtitle{\thisSubtitle}
+\author{\thisAuthor}
+\date{April 11, 2019}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+
+  {\tiny
+    \doclicenseThis
+    }
+\end{frame}
+
+\subfile{overview.tex}
+
+\subfile{regular.tex}
+
+\subfile{context-free.tex}
+
+\subfile{context-sensitive.tex}
+
+\subfile{recursively-enumerable.tex}
+
+\begin{comment}
+  Turing machine definition
+  Context-sensitive grammars are recognizable by linear bounded Turing machines, which means the tape's lenght is porportional to the input's.
+  Unrestricted grammars are recognizable by unbounded Turing machines, but they are not guaranteed to halt.
+  P = NP is about non/determinism. We know that deterministic Turing machines can simulate non-deterministic Turing machines. The question is: how much slower are they?
+  https://en.wikipedia.org/wiki/Automata_theory#Hierarchy_in_terms_of_powers
+  https://en.wikipedia.org/wiki/Chomsky_hierarchy#The_hierarchy
+\end{comment}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

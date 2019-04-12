@@ -14,5 +14,6 @@
 *.py.err
 *.snm
 *.nav
+*.vrb
 
 auto/
