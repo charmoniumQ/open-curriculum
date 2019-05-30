@@ -1,0 +1,144 @@
+<title>Memory Problems in C</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<div class="container">
+
+<h1 id="memory-problems-in-c">Memory Problems in C</h1>
+<p>Estimated time: 40 minutes. Let me know if I&#39;m wrong.</p>
+<p>Language: C</p>
+<p>Objective: to introduce you to the tools for debugging memory
+errors. Knowing your tools makes you a 10x more productive programmer.</p>
+<blockquote>
+<p>As a novice performing automotive repair, I can struggle for hours
+trying to fit my rudimentary tools (hammer, duct tape, wrench,
+etc.) to the task at hand. When I fail miserably and tow my jalopy
+to a real mechanic, he invariably fishes around in a huge tool
+chest until pulling out the perfect gizmo which makes the job seem
+effortless.</p>
+</blockquote>
+<p><em>from the <code>nmap</code> manual page</em></p>
+<hr>
+<ol>
+<li>The following program crashes at line D, however removing any of
+these seemingly unrelated lines, A, B, or C cause the program to
+succeed. Why is this? Experiment and write down your guess.</li>
+</ol>
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct {
+    char * file;
+    size_t line; // A
+    char * type; // B
+    size_t size;
+} entry_t;
+
+int main() {
+    entry_t* entry = malloc(sizeof(entry));
+
+    entry-&gt;size = 10; // C
+    entry-&gt;file = &quot;file&quot;;
+    printf(&quot;%s %d\n&quot;, entry-&gt;file, entry-&gt;size); // D
+
+    free(entry);
+
+    return 0;
+}</code></pre>
+<p>Since this crash is undefined behavior, it is possible that on your
+compiler and OS, something different happens. I tested this in GCC
+with Linux, and I believe this behavior should be generalizable to
+other 64-bit environments, but it might not be. Let me know if this
+doesn&#39;t work. The rest of the exercise will still work.</p>
+<ol start="2">
+<li>Install valgrind.</li>
+</ol>
+<pre><code>gcc -g program.c -o program.exe
+valgrind ./program.exe</code></pre><p>If valgraind is not an option (e.g. if you have Windows), compile the program with address sanitization (ASAN):</p>
+<pre><code>gcc -fsanitize=address -g program.c -o program.exe
+./program.exe</code></pre><p>This compiles in address bounds checking to your Now try executing
+<code>program.exe</code>. Was your guess correct?</p>
+<p>Valgrind output:</p>
+<div class="spoiler">
+
+<p>I ran the program with no modifications. This is what catches my eye:</p>
+<pre><code>==16725== Invalid write of size 8
+==16725==    at 0x10916F: main (memory_problems.c:15)
+==16725==  Address 0x4a3d058 is 16 bytes after a block of size 8 alloc&#39;d
+==16725==    by 0x109166: main (memory_problems.c:13)</code></pre><p>On line C, it looks like <code>entry-&gt;size</code> points to an address that isn&#39;t
+writable (hence invalid write). So <code>entry</code> does not point to a valid
+<code>entry_t</code>. I don&#39;t yet know why. Take another look at its
+construction, which is the other line that Valgrind flagged.</p>
+</div>
+
+<p>ASAN output:</p>
+<div class="spoiler">
+
+<p>I ran the program with line A removed. The relevant output is here:</p>
+<pre><code>SUMMARY: AddressSanitizer: heap-buffer-overflow ./memory_problems.c:15 in main</code></pre><p>This must mean that <code>entry</code> was not properly constructed. It does not point to 24 bytes (24 is the size of the struct) of empty data.</p>
+</div>
+
+<ol start="4">
+<li>These tools lead us to the actual error. Was your guess correct?</li>
+</ol>
+<div class="spoiler">
+
+<p><code>malloc(sizeof(entry))</code> should be <code>malloc(sizeof(entry_t))</code>.</p>
+</div>
+
+<ol start="5">
+<li>Explain why this line of code matters.</li>
+</ol>
+<div class="spoiler">
+
+<p>In the incorrect version, C won&#39;t allocate enough memory for an <code>entry_t</code>.</p>
+<p><code>sizeof(entry)</code> (i.e. <code>sizeof(entry_t*)</code>) is 8 (as are all pointers),
+but <code>sizeof(entry_t)</code> is 24. This means that the first field, <code>file</code>
+points to 8 bytes of empty memory. This explains all of the observed
+behavior:</p>
+<ul>
+<li><p>accessing <code>size</code> causes a crash because <code>size</code> exists at <code>entry +
+20</code> which is invalid if <code>entry</code> points to a block of 8 free bytes.</p>
+</li>
+<li><p>removing either member variable A or B shifts the struct up by 4 or
+8 bytes respectively. The program for whatever reason has some empty
+data after <code>entry</code>, so <code>entry-&gt;file</code> (<code>entry + 12</code> or <code>entry + 16</code>)
+accesses that memory. This is not valid because we are writing
+someone elses memory, but it does not crash.</p>
+</li>
+</ul>
+<p>This is a silly typo. In C, it never makes sense to write <code>Type*
+object = malloc(sizeof(object));</code> In an ideal programming language,
+the programmer would not have to repeat the type that they are
+mallocing.</p>
+</div>
+
+<ol start="6">
+<li>Can this same kind of bug happen in C++ (with <code>new</code>)?</li>
+</ol>
+<div class="spoiler">
+
+<p>No.</p>
+<p>We would write </p>
+<pre><code>entry_t* entry = new ____;</code></pre><p>The blank has to be filled in with a type-name, not a variable
+name. Furthermore, <code>new T</code> evaluates to a <code>T*</code> so it can only be
+assigned to variables of type <code>T*</code>. The problem is that the return
+type of <code>malloc</code> is <code>void*</code> which allows for no typechecking at
+all.</p>
+<p>That&#39;s one reason some poeple prefer C++ to C.</p>
+</div>
+
+<style type="text/css">
+.spoiler:not(:hover) > * {
+    opacity: 0;
+}
+.spoiler > * {
+    transition: opacity .5s ease-in;
+}
+.spoiler {
+    background-color: tan;
+}
+</style>
+
+</div>
