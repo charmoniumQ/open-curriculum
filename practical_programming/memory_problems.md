@@ -159,6 +159,18 @@ That's one reason some poeple prefer C++ to C.
 
 </div>
 
+# Further reading
+
+Note that Valgrind's memcheck is the canonical tool for checking
+memory, whereas ASAN is more recently made, and its design has some
+inherent limitations. Valgrind actually runs your program in a virtual
+machine where every memory access is logged. ASAN inserts
+runtime-checks, which is less powerful.
+
+- [Common Valgrind use-cases](https://stackoverflow.com/a/44989219/1078199)
+- [Common Valgrind use-cases (different author)](https://linoxide.com/tools/valgrind-memcheck/)
+- [Common ASAN use-cases](https://en.wikipedia.org/wiki/AddressSanitizer#Examples)
+
 <style type="text/css">
 .spoiler:not(:hover) > * {
     opacity: 0;
