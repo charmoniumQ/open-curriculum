@@ -4,6 +4,8 @@
 
 [Reading](https://www.geeksforgeeks.org/memory-layout-of-c-program/)
 
+Virtual memory mapping
+
 ```C
 
 #include <stdio.h>
@@ -25,13 +27,18 @@ int main() {
 
 ## The stack
 
-Function storage.
+Pushes and pops the function's storage for local vars (including parameters and return).
+
+Also return address, where to go next.
 
 Goes arbitrarily 'deep' into functions that call functions that call functions...
 
 "stack trace" = which functions got called (can tell by looking at stack)
 
+Recursive functions are bad because without tial-call optimization, each function call requires constant space on the stack.
+
 1. If each function has a constant size at compile-time, why is the stack's size non-deterministic?
+2. How does try/catch work?
 
 ## Heap
 
@@ -41,9 +48,9 @@ Doesn't have to be laid out this way;
 
 malloc(n * sizeof(byte)); // give me n bytes. I don't care where
 
-In C, always use a 'unit' (sizeof(SomeType))
+In C, always use a 'unit' (multiply by sizeof(SomeType)). In C++, always use `new SomeType`, because it deduces the unit.
 
-In C++, always use new.
+Unlike the stack, this memory is managed manually. You are in charge of creating and deleting.
 
 ## Linking
 
