@@ -8,7 +8,15 @@
 \textbf{Questions.}
 \begin{enumerate}[label=\textbf{\arabic*.}]
     \item In \ert{sp\_linux\_copy.c}, why does \ert{argv} have type \ert{char*}, but we're indexing it by \ert{1} and \ert{2} to get \ert{input\_fd} and \ert{output\_fd}?
-    \item What exactly does the \ert{[]} do in the function signature for \ert{main}? 
+    \item What exactly does the \ert{[]} do in the function signature for \ert{main}?
+    \item What does the following line do.
+    \begin{verbatim}
+        ret_out = write (output_fd, &buffer, (ssize_t) ret_in);
+    \end{verbatim}
+    Specifically, what does \ert{(ssize\_t) ret\_in)} do? Is this a type cast? If so, what is the semantics of the type \ert{ssize\_t}?
+    \item Is \ert{(EXIT\_SUCCESS)} some kind of global constant? Is it defined by one of the \ert{\#include} statements?
 \end{enumerate}
 Okay, so the obvious answer to the first question is that \ert{argv} is an array of \ert{char*} variables. Does the \ert{[]} syntax do this for all types? It was mentioned that arrays and pointers are more or less the same thing because of pointer arithmetic in the last session. Does that apply here? What is going on in memory when we do something like \ert{char * argv[];}? Can you even do that? Or is that syntax only valid in function signatures?
+
+For question 3, we went over this a bit, but I'm confused about the difference between \ert{ssize\_t} and \ert{size\_t}. They're both essentially integers?
 \end{document}
