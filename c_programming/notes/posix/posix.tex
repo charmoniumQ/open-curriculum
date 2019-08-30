@@ -1,0 +1,12 @@
+\documentclass[12pt, reqno, twoside]{amsart}
+\newcommand{\ert}{\texttt}
+\title{Notes on POSIX I/O}
+\author{Grayson/Whitaker}
+\begin{document}
+\maketitle
+\textbf{Questions.}
+\begin{enumerate}
+    \item In \texttt{sp\_linux\_copy.c}, why does \texttt{argv} have type \texttt{char*}, but we're indexing it by \texttt{1} and \texttt{2} to get \texttt{input\_fd} and \ert{output\_fd}?
+    \item What exactly does the \ert{[]} do in the function signature for \ert{main}? 
+\end{enumerate}
+\end{document}
