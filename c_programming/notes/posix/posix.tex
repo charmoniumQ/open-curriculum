@@ -10,4 +10,5 @@
     \item In \ert{sp\_linux\_copy.c}, why does \ert{argv} have type \ert{char*}, but we're indexing it by \ert{1} and \ert{2} to get \ert{input\_fd} and \ert{output\_fd}?
     \item What exactly does the \ert{[]} do in the function signature for \ert{main}? 
 \end{enumerate}
+Okay, so the obvious answer to the first question is that \ert{argv} is an array of \ert{char*} variables. Does the \ert{[]} syntax do this for all types? It was mentioned that arrays and pointers are more or less the same thing because of pointer arithmetic in the last session. Does that apply here? What is going on in memory when we do something like \ert{char * argv[];}? Can you even do that? Or is that syntax only valid in function signatures?
 \end{document}
